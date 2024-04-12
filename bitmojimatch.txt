@@ -1,0 +1,63 @@
+//copy in khan button class
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 150;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
+};
+
+Button.prototype.draw = function() {
+    noStroke();
+    fill(117, 217, 136);
+    rect(this.x, this.y, this.width, this.height, 5);
+    fill(0, 0, 0);
+    fill(255, 255, 255);
+    textSize(25);
+    //textAlign(LEFT, TOP);
+    text(this.label, this.x+40, this.y+this.height/1.5);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+//end khan button class
+
+//add bitmojis
+
+var splashScreen = function ()
+{
+    background(125, 138, 255);
+
+    var startButton = new Button({
+        x: 120,
+        y: 300,
+        label: "Start!",
+        onClick: function() {
+        
+        }
+    });
+    startButton.draw();
+
+    fill(255, 255, 255);
+    textSize(40);
+    text("Bitmoji Match", 80, 100);
+
+};
+
+splashScreen();
+
+var howToPlay = function()
+{
+    //give players instructions to play game
+};
