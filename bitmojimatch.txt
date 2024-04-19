@@ -1,3 +1,90 @@
+//jackson's bitmoji
+var drawBitmoji = function(headX,headY,headHeight) {
+
+noStroke();
+//hat
+fill(138, 136, 138);
+arc((200*(headHeight/150)) + headX, (110*(headHeight/150)) + headY, 125*(headHeight/150), 200*(headHeight/150), 180, 360);
+fill(153, 153, 153);
+ellipse((200*(headHeight/150)) + headX, (130*(headHeight/150)) + headY, 250*(headHeight/150), 120*(headHeight/150));
+//neck
+fill(237, 204, 180);
+rect((165*(headHeight/150)) + headX, (230*(headHeight/150)) + headY, 70*(headHeight/150), 50*(headHeight/150));
+//head
+fill(242, 216, 184);
+ellipse((200*(headHeight/150)) + headX, (170*(headHeight/150)) + headY, 125*(headHeight/150), headHeight);
+//hair
+fill(116, 65, 171);
+quad((163*(headHeight/150)) + headX, (112*(headHeight/150)) + headY, (180*(headHeight/150)) + headX, (98*(headHeight/150)) + headY, (147*(headHeight/150)) + headX, (113*(headHeight/150)) + headY, (137*(headHeight/150)) + headX, (170*(headHeight/150)) + headY); //left
+quad((239*(headHeight/150)) + headX, (112*(headHeight/150)) + headY, (222*(headHeight/150)) + headX, (103*(headHeight/150)) + headY, (253*(headHeight/150)) + headX, (113*(headHeight/150)) + headY, (262*(headHeight/150)) + headX, (170*(headHeight/150)) + headY); //right
+triangle((204*(headHeight/150)) + headX, (111*(headHeight/150)) + headY, (162*(headHeight/150)) + headX, (105*(headHeight/150)) + headY, (238*(headHeight/150)) + headX, (103*(headHeight/150)) + headY); //middle
+quad((226*(headHeight/150)) + headX, (84*(headHeight/150)) + headY, (186*(headHeight/150)) + headX, (81*(headHeight/150)) + headY, (160*(headHeight/150)) + headX, (90*(headHeight/150)) + headY, (144*(headHeight/150)) + headX, (121*(headHeight/150)) + headY); //top left
+quad((185*(headHeight/150)) + headX, (90*(headHeight/150)) + headY, (217*(headHeight/150)) + headX, (83*(headHeight/150)) + headY, (231*(headHeight/150)) + headX, (87*(headHeight/150)) + headY, (252*(headHeight/150)) + headX, (114*(headHeight/150)) + headY); //top right
+ellipse((200*(headHeight/150)) + headX, (100*(headHeight/150)) + headY, 50*(headHeight/150), 20*(headHeight/150)); //top middle
+//head shaping
+fill(125, 138, 255);
+quad((137*(headHeight/150)) + headX, (170*(headHeight/150)) + headY, (140*(headHeight/150)) + headX, (213*(headHeight/150)) + headY, (155*(headHeight/150)) + headX, (227*(headHeight/150)) + headY, (139*(headHeight/150)) + headX, (151*(headHeight/150)) + headY); //left
+quad((266*(headHeight/150)) + headX, (170*(headHeight/150)) + headY, (260*(headHeight/150)) + headX, (213*(headHeight/150)) + headY, (245*(headHeight/150)) + headX, (227*(headHeight/150)) + headY, (262*(headHeight/150)) + headX, (151*(headHeight/150)) + headY); //right
+//ears
+fill(242, 216, 184);
+ellipse((142*(headHeight/150)) + headX, (170*(headHeight/150)) + headY, 18*(headHeight/150), 35*(headHeight/150)); //left
+ellipse((258*(headHeight/150)) + headX, (170*(headHeight/150)) + headY, 18*(headHeight/150), 35*(headHeight/150)); //right
+
+//EYES
+fill(107, 78, 55);
+ellipse((172*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 21*(headHeight/150), 14*(headHeight/150)); //left outline
+ellipse((228*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 21*(headHeight/150), 14*(headHeight/150)); //right outline
+fill(255, 255, 255);
+ellipse((172*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 20*(headHeight/150), 13*(headHeight/150)); //left eye white
+ellipse((228*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 20*(headHeight/150), 13*(headHeight/150)); //right eye white
+fill(92, 57, 30);
+ellipse((172*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 13*(headHeight/150), 13*(headHeight/150)); //left iris
+ellipse((228*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 13*(headHeight/150), 13*(headHeight/150)); //right iris
+fill(0, 0, 0);
+ellipse((172*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 7*(headHeight/150), 7*(headHeight/150)); //left pupil
+ellipse((228*(headHeight/150)) + headX, (159*(headHeight/150)) + headY, 7*(headHeight/150), 7*(headHeight/150)); //right pupil
+
+//NOSE
+fill(232, 195, 169);
+ellipse((200*(headHeight/150)) + headX, (192*(headHeight/150)) + headY, 20*(headHeight/150), 15*(headHeight/150)); //bottom
+quad((205*(headHeight/150)) + headX, (155*(headHeight/150)) + headY, (195*(headHeight/150)) + headX, (155*(headHeight/150)) + headY, (191*(headHeight/150)) + headX, (196*(headHeight/150)) + headY, (209*(headHeight/150)) + headX, (196*(headHeight/150)) + headY); //bridge
+
+//MOUTH
+fill(230, 158, 122);
+arc((200*(headHeight/150)) + headX, (214*(headHeight/150)) + headY, 30*(headHeight/150), 10*(headHeight/150), -15, 180); //bottom lip
+ellipse((197*(headHeight/150)) + headX, (215*(headHeight/150)) + headY, 10*(headHeight/150), 5*(headHeight/150)); //left top lip
+ellipse((203*(headHeight/150)) + headX, (215*(headHeight/150)) + headY, 10*(headHeight/150), 5*(headHeight/150)); //right top lip
+
+//EYEBROWS
+fill(107, 78, 55);
+triangle((166*(headHeight/150)) + headX,(144*(headHeight/150)) + headY, (156*(headHeight/150)) + headX,(149*(headHeight/150)) + headY, (171*(headHeight/150)) + headX,(148*(headHeight/150)) + headY); //left eyebrow tail 
+triangle((232*(headHeight/150)) + headX, (144*(headHeight/150)) + headY, (242*(headHeight/150)) + headX, (149*(headHeight/150)) + headY, (227*(headHeight/150)) + headX, (148*(headHeight/150)) + headY); //right eyebrow tail
+rect((166*(headHeight/150)) + headX, (144*(headHeight/150)) + headY, 18*(headHeight/150), 4*(headHeight/150)); //left eyebrow front
+rect((214*(headHeight/150)) + headX, (144*(headHeight/150)) + headY, 18*(headHeight/150), 4*(headHeight/150)); //right eyebrow front
+
+//BODY
+fill(130, 50, 60); //red shirt color
+rect((50*(headHeight/150)) + headX, (250*(headHeight/150)) + headY, 300*(headHeight/150), 300*(headHeight/150)); //red shirt base
+fill(125, 138, 255);
+arc((71*(headHeight/150)) + headX,(269*(headHeight/150)) + headY, 100*(headHeight/150), 100*(headHeight/150), 118, 337); //left shoulder shaping
+arc((326*(headHeight/150)) + headX, (269*(headHeight/150)) + headY, 100*(headHeight/150), 100*(headHeight/150), -156, 59); //right shoulder shaping
+fill(10, 0, 0); 
+triangle((165*(headHeight/150)) + headX, (250*(headHeight/150)) + headY, (235*(headHeight/150)) + headX, (250*(headHeight/150)) + headY, (200*(headHeight/150)) + headX, (538*(headHeight/150)) + headY); //black shirt
+//NECK
+fill(237, 204, 180);
+arc((200*(headHeight/150)) + headX, (250*(headHeight/150)) + headY, 80*(headHeight/150), 40*(headHeight/150), 0, 180);
+//SHIRT DETAILS
+fill(105, 37, 46); //dark red shirt color
+quad((150*(headHeight/150)) + headX, (243*(headHeight/150)) + headY, (175*(headHeight/150)) + headX, (264*(headHeight/150)) + headY, (169*(headHeight/150)) + headX, (284*(headHeight/150)) + headY, (139*(headHeight/150)) + headX, (259*(headHeight/150)) + headY); //left collar
+quad((250*(headHeight/150)) + headX, (243*(headHeight/150)) + headY, (225*(headHeight/150)) + headX, (264*(headHeight/150)) + headY, (231*(headHeight/150)) + headX, (284*(headHeight/150)) + headY, (261*(headHeight/150)) + headX, (259*(headHeight/150)) + headY); //left collar
+stroke(105, 37, 46);
+strokeWeight(3);
+line((103*(headHeight/150)) + headX,(344*(headHeight/150)) + headY, (103*(headHeight/150)) + headX,(549*(headHeight/150)) + headY); //left arm
+line((293*(headHeight/150)) + headX,(344*(headHeight/150)) + headY,(293*(headHeight/150)) + headX,(549*(headHeight/150)) + headY); //right arm
+};
+
+
+
 //copy in khan button class
 var Button = function(config) {
     this.x = config.x || 0;
@@ -33,20 +120,34 @@ Button.prototype.handleMouseClick = function() {
 };
 //end khan button class
 
-//add bitmojis
+//Global Variables
+var screen = 1; //controls what screen is displayed. 0 is 1st screen, 1 is 2nd screen, etc.
 
-var splashScreen = function ()
-{
-    background(125, 138, 255);
-
-    var startButton = new Button({
+//Buttons
+var startButton = new Button({
         x: 120,
         y: 300,
         label: "Start!",
         onClick: function() {
-        
+            screen = 1;
         }
     });
+    
+var playButton = new Button({
+        x: 120,
+        y: 300,
+        label: "Play!",
+        onClick: function() {
+            screen =2;
+        }
+    });
+    
+    
+//Screens
+var splashScreen = function ()
+{
+    background(125, 138, 255);
+
     startButton.draw();
 
     fill(255, 255, 255);
@@ -61,10 +162,38 @@ var splashScreen = function ()
 
 };
 
-splashScreen();
-
 var howToPlay = function()
 {
-    //give players instructions to play game
+    background(125, 138, 255);
+    
+    playButton.draw();
+    
+    fill(255, 255, 255);
+    textSize(40);
+    text("How To Play:", 80, 100);
+    textSize(15);
+    text("Each player turns over 2 cards.", 70, 135);
+    text("If the cards match, the player gets a point.", 70, 160);
+    text("After each point, the board reshuffles", 70, 185);
+    text("It is then the other player's turn.", 70, 210);
+    text("Play until 5 points.", 70, 235);
+    text("If the cards don't match, they turn back over.", 70, 260);
+    text("It is then the other player's turn.", 70, 285);
 };
+
+mouseClicked = function() {
+    if(screen === 0) {
+        startButton.handleMouseClick();
+    }
+    else if(screen === 1){
+    playButton.handleMouseClick();
+    }
+};
+
+if (screen === 0) {
+    splashScreen();
+}
+else if (screen === 1) {
+    howToPlay();
+}
 
