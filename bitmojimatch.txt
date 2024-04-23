@@ -1,6 +1,5 @@
 //Eylaf's bitmoji 
 function drawBitmoji2 (x,y, size){
-    var headWidth = size*0.6;
     
 fill(197, 149, 204);
 ellipse(x + 100 *(size/100), y + 191 *(size/100),136*(size/100),87*(size/100));
