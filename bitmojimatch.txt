@@ -1,5 +1,5 @@
 //Eylaf's bitmoji 
-function drawBitmoji (x,y, size){
+function drawBitmoji2 (x,y, size){
     var headWidth = size*0.6;
     
 fill(197, 149, 204);
@@ -160,7 +160,7 @@ Button.prototype.handleMouseClick = function() {
 //end khan button class
 
 //Global Variables
-var screen = 1; //controls what screen is displayed. 0 is 1st screen, 1 is 2nd screen, etc.
+var screen = 0; //controls what screen is displayed. 0 is 1st screen, 1 is 2nd screen, etc.
 
 //Buttons
 var startButton = new Button({
@@ -192,6 +192,9 @@ var splashScreen = function ()
     fill(255, 255, 255);
     textSize(40);
     text("Bitmoji Match", 80, 100);
+    drawBitmoji(47,127,33);
+    drawBitmoji2(215,126,54);
+
     
     fill(72, 0, 255);
     rect(0, 375, 400, 100);
@@ -229,16 +232,10 @@ mouseClicked = function() {
     }
 };
 
-draw = function() {
-    if (screen === 0) {
-    splashScreen();
-    }
-    else if (screen === 1) {
-    howToPlay();
-    }
-};
+
 
 //screen #3 
+var gameScreen = function() {
 var Tile = function(x, y, face) {
     this.x = x;
     this.y = y;
@@ -440,3 +437,16 @@ draw = function() {
 
 noLoop();
 
+};
+draw = function() {
+    if (screen === 0) {
+    splashScreen();
+    }
+    else if (screen === 1) {
+    howToPlay();
+    }
+    else if (screen === 2){
+        gameScreen();
+        
+    }
+};
