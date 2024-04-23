@@ -225,14 +225,15 @@ mouseClicked = function() {
         startButton.handleMouseClick();
     }
     else if(screen === 1){
-    playButton.handleMouseClick();
+        playButton.handleMouseClick();
     }
 };
 
-if (screen === 0) {
+draw = function() {
+    if (screen === 0) {
     splashScreen();
-}
-else if (screen === 1) {
+    }
+    else if (screen === 1) {
     howToPlay();
-}
-
+    }
+};
