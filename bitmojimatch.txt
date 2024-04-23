@@ -1,3 +1,42 @@
+//Eylaf's bitmoji 
+function drawBitmoji (x,y, size){
+    var headWidth = size*0.6;
+    
+fill(197, 149, 204);
+ellipse(x + 100 *(size/100), y + 191 *(size/100),136*(size/100),87*(size/100));
+
+fill (27, 25, 28);
+ellipse (x+100*(size/100),y+100*(size/100),119*(size/100),165*(size/100)); //headwear 
+fill(255,224,189);
+ellipse (x+100*(size/100),y+100*(size/100),111*(size/100),133*(size/100)); //head 
+fill(235, 226, 226);
+ellipse (x+75*(size/100),y+72*(size/100),24*(size/100),15*(size/100)); //eye 
+ellipse (x+124*(size/100),y+72*(size/100),24*(size/100),15*(size/100)); //eye 
+
+fill(0, 0, 0);
+ellipse (x+75*(size/100),y+72*(size/100),9*(size/100),8*(size/100)); //eyes 
+ellipse (x+124*(size/100),y+72*(size/100),9*(size/100),8*(size/100)); //eyes 
+
+//mouse 
+fill (247, 242, 242);
+ellipse(x+100*(size/100),y+126*(size/100), 47*(size/100),20*(size/100)); 
+fill(255, 224, 198);
+noStroke();
+rect(x+70*(size/100),y+113*(size/100),59*(size/100),12*(size/100));
+stroke(13, 12, 13);
+bezier(x+102*(size/100),y+89*(size/100),x+115*(size/100),y+97*(size/100),x+119*(size/100),y+107*(size/100),x+95*(size/100),y+108*(size/100)); //nose 
+line(x+75*(size/100),y+124*(size/100),x+123*(size/100),y+124*(size/100));
+
+fill(10, 9, 10);
+// text 
+textSize(30);
+text("EA",x+80*(size/100),y+215*(size/100)); 
+
+}
+
+
+
+
 //jackson's bitmoji
 var drawBitmoji = function(headX,headY,headHeight) {
 
