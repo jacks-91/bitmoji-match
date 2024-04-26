@@ -1,5 +1,6 @@
 //Eylaf's bitmoji 
 function drawBitmoji2 (x,y, size){
+    var headWidth = size*0.6;
     
 fill(197, 149, 204);
 ellipse(x + 100 *(size/100), y + 191 *(size/100),136*(size/100),87*(size/100));
@@ -34,9 +35,7 @@ text("EA",x+80*(size/100),y+215*(size/100));
 }
 
 
-
-
-//jackson's bitmoji
+//Jackson's Bitmoji
 var drawBitmoji = function(headX,headY,headHeight) {
 
 noStroke();
@@ -119,8 +118,10 @@ stroke(105, 37, 46);
 strokeWeight(3);
 line((103*(headHeight/150)) + headX,(344*(headHeight/150)) + headY, (103*(headHeight/150)) + headX,(549*(headHeight/150)) + headY); //left arm
 line((293*(headHeight/150)) + headX,(344*(headHeight/150)) + headY,(293*(headHeight/150)) + headX,(549*(headHeight/150)) + headY); //right arm
+stroke(0, 0, 0);
+strokeWeight(1);
 };
-
+//END OF BITMOJIS
 
 
 //copy in khan button class
@@ -140,8 +141,7 @@ Button.prototype.draw = function() {
     fill(0, 0, 0);
     fill(255, 255, 255);
     textSize(25);
-    //textAlign(LEFT, TOP);
-    text(this.label, this.x+40, this.y+this.height/1.5);
+    text(this.label, this.x+12, this.y+this.height/1.5);
 };
 
 Button.prototype.isMouseInside = function() {
@@ -159,13 +159,13 @@ Button.prototype.handleMouseClick = function() {
 //end khan button class
 
 //Global Variables
-var screen = 0; //controls what screen is displayed. 0 is 1st screen, 1 is 2nd screen, etc.
+var screen = 3; //controls what screen is displayed. 0 is 1st screen, 1 is 2nd screen, etc.
 
 //Buttons
 var startButton = new Button({
         x: 120,
         y: 300,
-        label: "Start!",
+        label: "     Start!",
         onClick: function() {
             screen = 1;
         }
@@ -174,14 +174,23 @@ var startButton = new Button({
 var playButton = new Button({
         x: 120,
         y: 300,
-        label: "Play!",
+        label: "     Play!",
         onClick: function() {
-            screen =2;
+            screen = 2;
+        }
+    });
+
+var startOverButton = new Button({
+        x: 120,
+        y: 175,
+        label: "Start Over?",
+        onClick: function() {
+            screen = 0;
         }
     });
     
-    
-//Screens
+
+//Screen #0
 var splashScreen = function ()
 {
     background(125, 138, 255);
@@ -191,9 +200,9 @@ var splashScreen = function ()
     fill(255, 255, 255);
     textSize(40);
     text("Bitmoji Match", 80, 100);
-    drawBitmoji(47,127,33);
-    drawBitmoji2(215,126,54);
-
+    
+    drawBitmoji(50,126,33);
+    drawBitmoji2(245,126,54);
     
     fill(72, 0, 255);
     rect(0, 375, 400, 100);
@@ -203,6 +212,7 @@ var splashScreen = function ()
 
 };
 
+//Screen #1
 var howToPlay = function()
 {
     background(125, 138, 255);
@@ -222,6 +232,239 @@ var howToPlay = function()
     text("It is then the other player's turn.", 70, 285);
 };
 
+//Screen #2
+var gameScreen = function() {
+    var Tile = function(x, y, face) {
+        this.x = x;
+        this.y = y;
+        this.size = 50;
+        this.face = face;
+        this.isFaceUp = false;
+        this.isMatch = false;
+    };
+    
+    Tile.prototype.draw = function() {
+        fill(177, 58, 201);
+        strokeWeight(1);
+        ellipse(this.x + this.size / 2, this.y + this.size / 2, this.size, this.size);
+        if (this.isFaceUp) {
+            image(this.face, this.x, this.y, this.size, this.size);
+        } else {
+            image(getImage("avatars/duskpin-seed"), this.x, this.y, this.size, this       .size);
+        }
+    };
+    
+    Tile.prototype.isUnderMouse = function(x, y) {
+        return dist(x, y, this.x + this.size / 2, this.y + this.size / 2) < this.size     / 2;
+    };
+    
+    // Global config
+    var NUM_COLS = 6;
+    var NUM_ROWS = 5;
+    
+    // Declare an array of all possible faces
+    var faces = [
+        getImage("avatars/mr-pants-purple"),
+        getImage("avatars/marcimus-purple"),
+        getImage("avatars/duskpin-sapling"),
+        getImage("avatars/duskpin-seedling"),
+        getImage("avatars/duskpin-tree"),
+        getImage("avatars/duskpin-ultimate"),
+        getImage("avatars/mr-pants-pink"),
+        getImage("avatars/purple-pi"),
+        getImage("avatars/old-spice-man"),// bitmoji 
+        getImage("avatars/robot_female_1"),//bitmoji
+        getImage("avatars/leafers-seed"),
+        getImage("avatars/leafers-ultimate"),
+        getImage("avatars/duskpin-seed"),
+        getImage("avatars/duskpin-seedling"),
+        getImage("avatars/duskpin-sapling"),
+        getImage("avatars/leaf-green"),
+        getImage("avatars/leaf-orange"),
+        getImage("avatars/leaf-yellow"),
+        getImage("avatars/leaf-red")
+    ];
+    
+    // Make an array which has 2 of each, then randomize it
+    var possibleFaces = faces.slice(0);
+    var selected = [];
+    for (var i = 0; i < (NUM_COLS * NUM_ROWS) / 2; i++) {
+        // Randomly pick one from the array of remaining faces
+        var randomInd = floor(random(possibleFaces.length));
+        var face = possibleFaces[randomInd];
+        // Push twice onto array
+        selected.push(face);
+        selected.push(face);
+        // Remove from array
+        possibleFaces.splice(randomInd, 1);
+    }
+    
+    // Now shuffle the elements of that array
+    var shuffleArray = function(array) {
+        var counter = array.length;
+    
+        // While there are elements in the array
+        while (counter > 0) {
+            // Pick a random index
+            var ind = Math.floor(Math.random() * counter);
+            // Decrease counter by 1
+            counter--;
+            // And swap the last element with it
+            var temp = array[counter];
+            array[counter] = array[ind];
+            array[ind] = temp;
+        }
+    };
+    shuffleArray(selected);
+    
+    // Create the tiles
+    var tiles = [];
+    for (var i = 0; i < NUM_COLS; i++) {
+        for (var j = 0; j < NUM_ROWS; j++) {
+            var tileX = i * 54 + 10;
+            var tileY = j * 54 + 40;
+            var tileFace = selected.pop();
+            tiles.push(new Tile(tileX, tileY, tileFace));
+        }
+    }
+    
+    // Adjust canvas size based on the number of tiles
+    var canvasWidth = NUM_COLS * 54 + 20;
+    var canvasHeight = NUM_ROWS * 54 + 50;
+    
+    background(235, 234, 242);
+    
+    var currentPlayer = 1;
+    var player1Tries = 0;
+    var player2Tries = 0;
+    var player1Score = 0;
+    var player2Score = 0;
+    var numMatches = 0;
+    var flippedTiles = [];
+    var delayStartFC = null;
+    
+    function resetUnmatchedTiles() {
+        for (var i = 0; i < tiles.length; i++) {
+            var tile = tiles[i];
+            if (!tile.isMatch) {
+                tile.isFaceUp = false;
+            }
+        }
+        flippedTiles = [];
+        delayStartFC = null;
+        shuffleArray(tiles);
+    }
+    
+    mouseClicked = function() {
+        for (var i = 0; i < tiles.length; i++) {
+            var tile = tiles[i];
+            if (tile.isUnderMouse(mouseX, mouseY)) {
+                if (flippedTiles.length < 2 && !tile.isFaceUp) {
+                    tile.isFaceUp = true;
+                    flippedTiles.push(tile);
+                    if (flippedTiles.length === 2) {
+                        if (currentPlayer === 1) {
+                            player1Tries++;
+                            currentPlayer = 2;
+                        } else {
+                            player2Tries++;
+                            currentPlayer = 1;
+                        }
+                        if (flippedTiles[0].face === flippedTiles[1].face) {
+                            if (currentPlayer === 1) {
+                                player1Score++;
+                            } else {
+                                player2Score++;
+                            }
+                            flippedTiles[0].isMatch = true;
+                            flippedTiles[1].isMatch = true;
+                            flippedTiles.length = 0;
+                            numMatches++;
+                        } else {
+                            delayStartFC = frameCount;
+                        }
+                    }
+                } 
+                loop();
+            }
+        }
+    };
+    
+    draw = function() {
+        background(145, 142, 237);
+        
+        // Display player turn text
+        fill(0);
+        textSize(18);
+        textAlign(CENTER, CENTER);
+        if (currentPlayer === 1) {
+            text("Player 1's Turn", width / 2, 20);
+        } else {
+            text("Player 2's Turn", width / 2, 20);
+        }
+        
+        // Display scores
+        textSize(16);
+        text("Player 1 Score: " + player1Score, 60, height - 20);
+        text("Player 2 Score: " + player2Score, width - 120, height - 20);
+        
+        // Check delay for flipping tiles
+        if (delayStartFC && (frameCount - delayStartFC) > 30) {
+            resetUnmatchedTiles();
+            noLoop();
+        }
+        
+        // Draw tiles
+        for (var i = 0; i < tiles.length; i++) {
+            tiles[i].draw();
+        }
+        
+        // Display game over message
+        if (numMatches === tiles.length/2) { //win condition (CHANGE THIS)
+            screen = 3; //change screen when a win is detected
+            fill(0);
+            textSize(20);
+            if (player1Score > player2Score) {
+                text("Player 1 wins with " + player1Score + " matches!", width / 2,       height - 40);
+            } else if (player2Score > player1Score) {
+                text("Player 2 wins with " + player2Score + " matches!", width / 2,       height - 40);
+            } else {
+                text("It's a tie! Both players have " + player1Score + " matches!",       width / 2, height - 40);
+            }
+        }
+    };
+    noLoop();
+};
+
+
+//Screen #3
+var winScreen = function() {
+    background(125, 138, 255);
+    strokeWeight(3);
+    stroke(72, 0, 255);
+    fill(168, 127, 255);
+    rect(20, 20, 360, 230, 5);
+    strokeWeight(1);
+
+    startOverButton.draw();
+
+    fill(255, 255, 255);
+    textSize(40);
+    text("Player _ Wins,", 68, 80);
+    text("Congratulations!", 53, 135); 
+    
+    drawBitmoji(250,270,32);
+    drawBitmoji2(45,260,51);
+    
+    fill(72, 0, 255);
+    rect(0, 375, 400, 100); //footer
+    fill(255, 255, 255);
+    textSize(15);
+    text("Game by Eylaf and Jackson", 100, 392); 
+
+};
+
+//controls what happens when mouse is clicked
 mouseClicked = function() {
     if(screen === 0) {
         startButton.handleMouseClick();
@@ -229,223 +472,24 @@ mouseClicked = function() {
     else if(screen === 1){
         playButton.handleMouseClick();
     }
-};
-
-
-
-//screen #3 
-var gameScreen = function() {
-var Tile = function(x, y, face) {
-    this.x = x;
-    this.y = y;
-    this.size = 50;
-    this.face = face;
-    this.isFaceUp = false;
-    this.isMatch = false;
-};
-
-Tile.prototype.draw = function() {
-    fill(177, 58, 201);
-    strokeWeight(1);
-    ellipse(this.x + this.size / 2, this.y + this.size / 2, this.size, this.size);
-    if (this.isFaceUp) {
-        image(this.face, this.x, this.y, this.size, this.size);
-    } else {
-        image(getImage("avatars/duskpin-seed"), this.x, this.y, this.size, this.size);
+    else if(screen === 3) {
+        startOverButton.handleMouseClick();
     }
 };
 
-Tile.prototype.isUnderMouse = function(x, y) {
-    return dist(x, y, this.x + this.size / 2, this.y + this.size / 2) < this.size / 2;
-};
-
-// Global config
-var NUM_COLS = 6;
-var NUM_ROWS = 5;
-
-// Declare an array of all possible faces
-var faces = [
-    getImage("avatars/mr-pants-purple"),
-    getImage("avatars/marcimus-purple"),
-    getImage("avatars/duskpin-sapling"),
-    getImage("avatars/duskpin-seedling"),
-    getImage("avatars/duskpin-tree"),
-    getImage("avatars/duskpin-ultimate"),
-    getImage("avatars/mr-pants-pink"),
-    getImage("avatars/purple-pi"),
-    getImage("avatars/old-spice-man"),// bitmoji 
-    getImage("avatars/robot_female_1"),//bitmoji
-    getImage("avatars/leafers-seed"),
-    getImage("avatars/leafers-ultimate"),
-    getImage("avatars/duskpin-seed"),
-    getImage("avatars/duskpin-seedling"),
-    getImage("avatars/duskpin-sapling"),
-    getImage("avatars/leaf-green"),
-    getImage("avatars/leaf-orange"),
-    getImage("avatars/leaf-yellow"),
-    getImage("avatars/leaf-red")
-];
-
-// Make an array which has 2 of each, then randomize it
-var possibleFaces = faces.slice(0);
-var selected = [];
-for (var i = 0; i < (NUM_COLS * NUM_ROWS) / 2; i++) {
-    // Randomly pick one from the array of remaining faces
-    var randomInd = floor(random(possibleFaces.length));
-    var face = possibleFaces[randomInd];
-    // Push twice onto array
-    selected.push(face);
-    selected.push(face);
-    // Remove from array
-    possibleFaces.splice(randomInd, 1);
-}
-
-// Now shuffle the elements of that array
-var shuffleArray = function(array) {
-    var counter = array.length;
-
-    // While there are elements in the array
-    while (counter > 0) {
-        // Pick a random index
-        var ind = Math.floor(Math.random() * counter);
-        // Decrease counter by 1
-        counter--;
-        // And swap the last element with it
-        var temp = array[counter];
-        array[counter] = array[ind];
-        array[ind] = temp;
-    }
-};
-shuffleArray(selected);
-
-// Create the tiles
-var tiles = [];
-for (var i = 0; i < NUM_COLS; i++) {
-    for (var j = 0; j < NUM_ROWS; j++) {
-        var tileX = i * 54 + 10;
-        var tileY = j * 54 + 40;
-        var tileFace = selected.pop();
-        tiles.push(new Tile(tileX, tileY, tileFace));
-    }
-}
-
-// Adjust canvas size based on the number of tiles
-var canvasWidth = NUM_COLS * 54 + 20;
-var canvasHeight = NUM_ROWS * 54 + 50;
-
-background(235, 234, 242);
-
-var currentPlayer = 1;
-var player1Tries = 0;
-var player2Tries = 0;
-var player1Score = 0;
-var player2Score = 0;
-var numMatches = 0;
-var flippedTiles = [];
-var delayStartFC = null;
-
-function resetUnmatchedTiles() {
-    for (var i = 0; i < tiles.length; i++) {
-        var tile = tiles[i];
-        if (!tile.isMatch) {
-            tile.isFaceUp = false;
-        }
-    }
-    flippedTiles = [];
-    delayStartFC = null;
-    shuffleArray(tiles);
-}
-
-mouseClicked = function() {
-    for (var i = 0; i < tiles.length; i++) {
-        var tile = tiles[i];
-        if (tile.isUnderMouse(mouseX, mouseY)) {
-            if (flippedTiles.length < 2 && !tile.isFaceUp) {
-                tile.isFaceUp = true;
-                flippedTiles.push(tile);
-                if (flippedTiles.length === 2) {
-                    if (currentPlayer === 1) {
-                        player1Tries++;
-                        currentPlayer = 2;
-                    } else {
-                        player2Tries++;
-                        currentPlayer = 1;
-                    }
-                    if (flippedTiles[0].face === flippedTiles[1].face) {
-                        if (currentPlayer === 1) {
-                            player1Score++;
-                        } else {
-                            player2Score++;
-                        }
-                        flippedTiles[0].isMatch = true;
-                        flippedTiles[1].isMatch = true;
-                        flippedTiles.length = 0;
-                        numMatches++;
-                    } else {
-                        delayStartFC = frameCount;
-                    }
-                }
-            } 
-            loop();
-        }
-    }
-};
-
-draw = function() {
-    background(145, 142, 237);
-    
-    // Display player turn text
-    fill(0);
-    textSize(18);
-    textAlign(CENTER, CENTER);
-    if (currentPlayer === 1) {
-        text("Player 1's Turn", width / 2, 20);
-    } else {
-        text("Player 2's Turn", width / 2, 20);
-    }
-    
-    // Display scores
-    textSize(16);
-    text("Player 1 Score: " + player1Score, 60, height - 20);
-    text("Player 2 Score: " + player2Score, width - 120, height - 20);
-    
-    // Check delay for flipping tiles
-    if (delayStartFC && (frameCount - delayStartFC) > 30) {
-        resetUnmatchedTiles();
-        noLoop();
-    }
-    
-    // Draw tiles
-    for (var i = 0; i < tiles.length; i++) {
-        tiles[i].draw();
-    }
-    
-    // Display game over message
-    if (numMatches === tiles.length/2) {
-        fill(0);
-        textSize(20);
-        if (player1Score > player2Score) {
-            text("Player 1 wins with " + player1Score + " matches!", width / 2, height - 40);
-        } else if (player2Score > player1Score) {
-            text("Player 2 wins with " + player2Score + " matches!", width / 2, height - 40);
-        } else {
-            text("It's a tie! Both players have " + player1Score + " matches!", width / 2, height - 40);
-        }
-    }
-};
-
-noLoop();
-
-};
+//Draw Screens
 draw = function() {
     if (screen === 0) {
-    splashScreen();
+        splashScreen();
     }
     else if (screen === 1) {
-    howToPlay();
+        howToPlay();
     }
     else if (screen === 2){
         gameScreen();
-        
+    }
+    else if (screen === 3) {
+        winScreen();
     }
 };
+
