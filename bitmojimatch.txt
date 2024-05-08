@@ -231,11 +231,10 @@ var howToPlay = function()
     textSize(15);
     text("Each player turns over 2 cards.", 70, 135);
     text("If the cards match, the player gets a point.", 70, 160);
-    text("After each point, the board reshuffles", 70, 185); //NOT TRUE?
-    text("It is then the other player's turn.", 70, 210);
-    text("Play until 5 points.", 70, 235);
-    text("If the cards don't match, they turn back over.", 70, 260);
-    text("It is then the other player's turn.", 70, 285);
+    text("It is then the other player's turn.", 70, 210-25);
+    text("Play until 5 points.", 70, 235-25);
+    text("If the cards don't match, they turn back over.", 70, 260-25);
+    text("It is then the other player's turn.", 70, 285-25);
 };
 
 //Screen #2
